@@ -3,7 +3,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const spaceRoutes = require("./routes/spaceRoutes");
-
+const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
 
 const app = express();
 const port = 3000;
@@ -24,6 +25,22 @@ mongoose
   });
 
 app.use(bodyParser.json());
+
+// Swagger configuration
+const swaggerOptions = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Spaces API",
+      version: "1.0.0",
+      description: "APIs for managing spaces",
+    },
+  },
+  apis: ["./routes/*.js"], // Path to the API routes
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Routes
 app.use("/spaces", spaceRoutes);
