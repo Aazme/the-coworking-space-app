@@ -9,10 +9,18 @@ const express = require('express');
 const router = express.Router();
 const Space = require('../models/space');
 const winston = require('winston');
+const { requestsCounter, createdSpacesCounter, updatedSpacesCounter, deletedSpacesCounter } = require('../metrics');
+
 
 // Middleware for logging incoming requests
 router.use((req, res, next) => {
   winston.info(`${req.method} ${req.originalUrl} - ${req.ip}`);
+  next();
+});
+
+// Middleware to count requests
+router.use((req, res, next) => {
+  requestsCounter.labels(req.path, req.method).inc();
   next();
 });
 

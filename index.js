@@ -6,9 +6,12 @@ const winston = require("winston");
 const spaceRoutes = require("./routes/spaceRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
+const promClient = require('prom-client');
 
 const app = express();
 const port = 3000;
+
+promClient.collectDefaultMetrics();
 
 // Set up Winston logger
 const logger = winston.createLogger({
@@ -50,6 +53,12 @@ const swaggerOptions = {
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Expose metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', promClient.register.contentType);
+  res.end(await promClient.register.metrics());
+});
 
 // Routes
 app.use("/spaces", spaceRoutes);
