@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const winston = require("winston");
 const spaceRoutes = require("./routes/spaceRoutes");
 const swaggerUi = require("swagger-ui-express");
 const swaggerJsdoc = require("swagger-jsdoc");
@@ -9,6 +10,14 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const app = express();
 const port = 3000;
 
+// Set up Winston logger
+const logger = winston.createLogger({
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: "error.log", level: "error" }),
+    new winston.transports.File({ filename: "combined.log" }),
+  ],
+});
 
 // Connect to MongoDB
 mongoose

@@ -8,8 +8,13 @@
 const express = require('express');
 const router = express.Router();
 const Space = require('../models/space');
+const winston = require('winston');
 
-
+// Middleware for logging incoming requests
+router.use((req, res, next) => {
+  winston.info(`${req.method} ${req.originalUrl} - ${req.ip}`);
+  next();
+});
 
 /**
  * @swagger
@@ -56,8 +61,10 @@ const Space = require('../models/space');
 router.get('/', async (req, res) => {
   try {
     const spaces = await Space.find();
+    winston.info('All spaces fetched:', spaces);
     res.send(spaces);
   } catch (error) {
+    winston.error('Error fetching spaces:', error);
     res.status(500).send(error);
   }
 });
@@ -88,8 +95,10 @@ router.post('/', async (req, res) => {
   try {
     const space = new Space(req.body);
     await space.save();
+    winston.info('Space created:', space);
     res.status(201).send(space);
   } catch (error) {
+    winston.error('Error creating space:', error);
     res.status(400).send(error);
   }
 });
@@ -123,10 +132,13 @@ router.get('/:id', async (req, res) => {
   try {
     const space = await Space.findById(req.params.id);
     if (!space) {
+      winston.warn('Space not found');
       return res.status(404).send();
     }
+    winston.info('Space fetched by ID:', space);
     res.send(space);
   } catch (error) {
+    winston.error('Error fetching space by ID:', error);
     res.status(500).send(error);
   }
 });
@@ -168,10 +180,13 @@ router.patch('/:id', async (req, res) => {
   try {
     const space = await Space.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!space) {
+      winston.warn('Space not found for updating');
       return res.status(404).send();
     }
+    winston.info('Space updated by ID:', space);
     res.send(space);
   } catch (error) {
+    winston.error('Error updating space by ID:', error);
     res.status(400).send(error);
   }
 });
@@ -205,10 +220,13 @@ router.delete('/:id', async (req, res) => {
   try {
     const space = await Space.findByIdAndDelete(req.params.id);
     if (!space) {
+      winston.warn('Space not found for deletion');
       return res.status(404).send();
     }
+    winston.info('Space deleted by ID:', space);
     res.send(space);
   } catch (error) {
+    winston.error('Error deleting space by ID:', error);
     res.status(500).send(error);
   }
 });
