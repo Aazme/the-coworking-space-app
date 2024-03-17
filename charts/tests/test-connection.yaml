@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ .Release.Name }}-test"
+spec:
+  containers:
+    - name: test-pod
+      image: busybox
+      command: ['wget', '-O', '/dev/null', '{{ .Values.url }}']
+  restartPolicy: Never

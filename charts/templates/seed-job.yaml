@@ -1,0 +1,19 @@
+# templates/seed-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-seed-job
+  annotations:
+    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook-weight": "1"
+spec:
+  template:
+    spec:
+      containers:
+        - name: seed-job-container
+          image: {{ .Values.image }}
+          command: ["node", "seed.js"]
+          env:
+            - name: MONGODB_CONNECTION
+              value: {{ .Values.mongodb.uri }}
+      restartPolicy: Never

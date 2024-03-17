@@ -1,0 +1,8 @@
+mongodb:
+  enabled: true
+  uri: ""
+
+
+image: aazmy/coworkingspace-app:main
+
+url: "coworking-space-apis.aazmy.blog"
