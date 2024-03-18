@@ -1,6 +1,7 @@
 mongodb:
   enabled: true
-  uri: ""
+  uri: "mongodb+srv://$USERNAME:$PASSWORD@$HOST/spacesDB?retryWrites=true&w=majority&appName=Spaces"
+
 
 
 image: aazmy/coworkingspace-app:main
