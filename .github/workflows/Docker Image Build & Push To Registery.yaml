@@ -38,6 +38,7 @@ jobs:
 
       - name: Package Helm chart
         run: |
+          mkdir charts_dist
           helm package ./charts -d ./charts_dist
           helm repo index ./charts_dist --url https://github.com/aazmy/the-coworking-space-app/releases/latest
 
