@@ -97,11 +97,11 @@ To package the Helm chart for deployment, follow these steps:
 
 1. **Navigate to the Charts Folder**: Open your terminal and navigate to charts folder.
 
+
+2. **Package the Helm Chart**: Use the Helm CLI to package the Helm chart. Run the following command:
    ```bash
    helm package .
      ```
-
-2. **Package the Helm Chart**: Use the Helm CLI to package the Helm chart. Run the following command:
 3. **Verify Packaged Chart**: Once the packaging process is complete, you should see a .tgz file created in the current directory. You can verify the packaged chart by listing the files in the directory:
 4. **Use the Packaged Chart**: You can now use the packaged chart to deploy the application to a Kubernetes cluster. Run the following command to deploy the application using the packaged chart:
    ```bash
