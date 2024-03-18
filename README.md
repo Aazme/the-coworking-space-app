@@ -16,6 +16,7 @@ This Node.js application provides CRUD operations for managing spaces, along wit
     - [Start the Server](#start-the-server)
   - [Twelve-Factor Apps](#twelve-factor-apps)
   - [Packaging the Helm Chart](#packaging-the-helm-chart)
+  - [TODOs](#todos)
 
 
 <a name='features'></a>
@@ -29,7 +30,9 @@ This Node.js application provides CRUD operations for managing spaces, along wit
 - Husky and Commitizen integration for enforcing conventional commit messages (npm run commit)
 - Metrics for monitoring the application's performance
 - No Secrets in the code, all managed through .env file
-- 
+- Helm chart for packaging the application for deployment to Kubernetes
+  - Includes hooks for running database migrations and seeding the database
+  - Includes Test suite for testing the application after deployment
 
 <a name='setup'></a>
 ## Setup
@@ -83,7 +86,9 @@ npm run dev
 
 - The application follows the Twelve-Factor Apps methodology for better scalability, maintainability, and portability.
 - Environment variables are used for configuration, ensuring the application is easily deployable across different environments.
-- Dependencies are managed through npm, providing a consistent environment for development and production.
+- Metrics are exposed as an endpoint, allowing the application to be monitored and managed easily.
+- The application is stateless, allowing it to be easily scaled horizontally.
+- The application is self-contained, with all dependencies and configuration managed through the package.json and .env files.
 
 <a name='packaging-helm-chart'></a>
 ## Packaging the Helm Chart
@@ -105,3 +110,23 @@ To package the Helm chart for deployment, follow these steps:
    Replace `coworking-space-api-release` with the name you want to give to the release and `coworking-space-api-0.1.0.tgz` with the name of the packaged chart file.
 
    The application will be deployed to the Kubernetes cluster using the packaged chart.
+5. **Verify the Deployment**: You can verify the deployment by listing the releases in the cluster:
+   ```bash
+   helm list
+   ```
+   You should see the release you created listed in the output.
+
+6. **Test the helm chart**: You can test the helm chart by running the following command:
+   ```bash
+   helm test coworking-space-api-release
+   ```
+   Replace `coworking-space-api-release` with the name of the release you created.
+
+7. **Access the Application**: You can access the application by navigating to the URL of the Kubernetes cluster. The application will be running in the cluster, and you can access it using the URL provided by your cloud provider.
+
+<a name='todos'></a>
+## TODOs
+- [ ] Add unit tests
+- [ ] Automate the deployment process to Kubernetes using CI/CD
+- [ ] Add authentication and authorization
+- [ ] Implement rate limiting and request validation
