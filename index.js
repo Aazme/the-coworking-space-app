@@ -54,6 +54,9 @@ const swaggerOptions = {
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
+app.get("/", (req, res) => {
+  res.redirect("/api-docs");
+});
 // Expose metrics endpoint
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', promClient.register.contentType);
