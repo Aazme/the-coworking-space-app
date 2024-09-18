@@ -28,7 +28,7 @@ This Node.js application provides CRUD operations for managing spaces, along wit
 - Logging using Winston to log incoming requests, successful operations, and errors
 - Seed script to populate the database with initial data
 - Husky and Commitizen integration for enforcing conventional commit messages (npm run commit)
-- Metrics for monitoring the application's performance (https://coworking-space-apis.azmy.blog/metrics)
+- Metrics for monitoring the application's performance
 - No Secrets in the code, all managed through .env file
 - Helm chart for packaging the application for deployment to Kubernetes
   - Includes hooks for running database migrations and seeding the database
